@@ -59,7 +59,14 @@ class BoundaryObject(object):
              maxy, minz, maxz) = boundary.get_model_bounding_box()
         else:
             minx, maxx, miny, maxy, minz, maxz = boundary.get_bounding_box()
+        # minx, maxx, miny, maxy = -0.3, 0.3, 0.0, 0.45
         self._boundary_bbox = BoundingBox(minx, maxx, miny, maxy, minz, maxz)
+
+        print("bounding box")
+        print(minx, maxx, miny, maxy, minz, maxz)
+        # -0.32499998807907104 0.32499998807907104
+        # -0.45500004291534424 0.45500004291534424
+        # -0.0 0.0
 
         height = np.abs(maxz - minz)
         if height == 0:
@@ -75,6 +82,8 @@ class BoundaryObject(object):
         y = np.random.uniform(
             self._boundary_bbox.min_y + np.abs(obj_bbox.min_y),
             self._boundary_bbox.max_y - np.abs(obj_bbox.max_y))
+        x = 0.1
+        y = 0.1
         if self._is_plane:
             _, _, z = obj.get_position(self._boundary)
         else:
@@ -101,10 +110,11 @@ class BoundaryObject(object):
             bb = obj.get_bounding_box()
         obj_bbox = BoundingBox(*bb)
         rotation = np.random.uniform(list(min_rotation), list(max_rotation))
+        rotation = np.array([0.0, 0.0, -0.5])
         obj_bbox = obj_bbox.rotate(rotation)
 
-        if not obj_bbox.within_boundary(self._boundary_bbox, self._is_plane):
-            return -1
+        # if not obj_bbox.within_boundary(self._boundary_bbox, self._is_plane):
+            # return -1
 
         new_pos = self._get_position_within_boundary(obj, obj_bbox)
         obj.set_position(new_pos, self._boundary)
@@ -140,6 +150,7 @@ class SpawnBoundary(object):
         areas = []
         for b in boundaries:
             bo = BoundaryObject(b)
+            print(bo.get_area())
             areas.append(bo.get_area())
             self._boundaries.append(bo)
         self._probabilities = np.array(areas) / np.sum(areas)

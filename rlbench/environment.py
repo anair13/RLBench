@@ -22,7 +22,6 @@ class Environment(object):
     def __init__(self, action_mode: ActionMode, dataset_root: str= '',
                  obs_config=ObservationConfig(), headless=False,
                  static_positions: bool = False):
-
         self._dataset_root = dataset_root
         self._action_mode = action_mode
         self._obs_config = obs_config

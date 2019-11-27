@@ -115,7 +115,10 @@ class Scene(object):
         arm, gripper = self._initial_robot_state
         self._pyrep.set_configuration_tree(arm)
         self._pyrep.set_configuration_tree(gripper)
-        self._robot.arm.set_joint_positions(self._start_arm_joint_pos)
+        # self._robot.arm.set_joint_positions(self._start_arm_joint_pos)
+        self._robot.arm.set_joint_positions(
+            np.array([1.74271607,  0.03275421, -0.65453196, -2.68259668, -1.54614317, 1.57933259, -1.28874338])
+        )
         self._robot.arm.set_joint_target_velocities(
             [0] * len(self._robot.arm.joints))
         self._robot.gripper.set_joint_positions(
@@ -383,4 +386,6 @@ class Scene(object):
         min_rot, max_rot = self._active_task.base_rotation_bounds()
         self._workspace_boundary.sample(
             self._active_task.boundary_root(),
-            min_rotation=min_rot, max_rotation=max_rot)
+            min_rotation=min_rot, max_rotation=max_rot,
+            ignore_collisions=True,
+        )
