@@ -86,6 +86,8 @@ class Scene(object):
         if not self._has_init_task:
             self.init_task()
 
+        index = 1 # set index to 1 for the open_drawer task to open middle drawer
+
         # Try a few times to init and place in the workspace
         attempts = 0
         descriptions = None

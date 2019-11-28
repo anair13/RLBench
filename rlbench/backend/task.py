@@ -244,7 +244,8 @@ class Task(object):
             met, terminate = cond.condition_met()
             all_met &= met
             one_terminate |= terminate
-        return all_met, one_terminate
+        # return all_met, one_terminate # turning terminate to always False
+        return all_met, False
 
     def load(self) -> Object:
         if Object.exists(self.get_name()):
