@@ -13,8 +13,10 @@ from rlbench.observation_config import ObservationConfig
 from rlbench.task_environment import TaskEnvironment
 from rlbench.action_modes import ActionMode, ArmActionMode
 
-DIR_PATH = dirname(abspath(__file__))
+import signal
+import sys
 
+DIR_PATH = dirname(abspath(__file__))
 
 class Environment(object):
     """Each environment has a scene."""
@@ -33,6 +35,14 @@ class Environment(object):
         self._robot = None
         self._scene = None
         self._prev_task = None
+
+        # signal.signal(signal.SIGINT, self.signal_handler)
+        # signal.signal(signal.SIGTERM, self.signal_handler)
+
+    def signal_handler(self, sig, frame):
+        print('You pressed Ctrl+C!')
+        self.shutdown()
+        sys.exit(0)
 
     def _set_arm_control_action(self):
         self._robot.arm.set_control_loop_enabled(True)

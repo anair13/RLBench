@@ -82,8 +82,14 @@ class BoundaryObject(object):
         y = np.random.uniform(
             self._boundary_bbox.min_y + np.abs(obj_bbox.min_y),
             self._boundary_bbox.max_y - np.abs(obj_bbox.max_y))
-        x = 0.1
-        y = 0.1
+
+        # demos 1-4
+        # x = 0.1
+        # y = 0.1
+
+        # demo 5
+        x = 0.25
+        y = 0.05
         if self._is_plane:
             _, _, z = obj.get_position(self._boundary)
         else:
@@ -150,7 +156,6 @@ class SpawnBoundary(object):
         areas = []
         for b in boundaries:
             bo = BoundaryObject(b)
-            print(bo.get_area())
             areas.append(bo.get_area())
             self._boundaries.append(bo)
         self._probabilities = np.array(areas) / np.sum(areas)

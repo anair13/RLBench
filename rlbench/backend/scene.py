@@ -118,8 +118,13 @@ class Scene(object):
         self._pyrep.set_configuration_tree(arm)
         self._pyrep.set_configuration_tree(gripper)
         # self._robot.arm.set_joint_positions(self._start_arm_joint_pos)
+        # demos 1-4
+        # self._robot.arm.set_joint_positions(
+            # np.array([1.74271607,  0.03275421, -0.65453196, -2.68259668, -1.54614317, 1.57933259, -1.28874338])
+        # )
+        # demo 5
         self._robot.arm.set_joint_positions(
-            np.array([1.74271607,  0.03275421, -0.65453196, -2.68259668, -1.54614317, 1.57933259, -1.28874338])
+            np.array([1.43954229,  0.49347281, -0.74156833, -2.43805623, -1.75123608, 1.98059607, -1.0928334])
         )
         self._robot.arm.set_joint_target_velocities(
             [0] * len(self._robot.arm.joints))
@@ -154,6 +159,8 @@ class Scene(object):
         lsc_ob = self._obs_config.left_shoulder_camera
         rsc_ob = self._obs_config.right_shoulder_camera
         wc_ob = self._obs_config.wrist_camera
+
+        success, terminate = self._active_task.success()
 
         obs = Observation(
             left_shoulder_rgb=(
@@ -208,7 +215,9 @@ class Scene(object):
                 self._robot.gripper.get_joint_positions()),
             task_low_dim_state=(
                 self._active_task.get_low_dim_state() if
-                self._obs_config.task_low_dim_state else None))
+                self._obs_config.task_low_dim_state else None),
+            reward=np.array([success]),
+            )
         obs = self._active_task.decorate_observation(obs)
         return obs
 
